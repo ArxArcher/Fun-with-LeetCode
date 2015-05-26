@@ -22,6 +22,7 @@ var longestCommonPrefix = function(strs) {
 
             if (tempCommon !== theChar) {
                 allSame = false;
+                break;
             }
         }
 
