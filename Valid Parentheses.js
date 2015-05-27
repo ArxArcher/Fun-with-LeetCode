@@ -3,78 +3,92 @@
  * @return {boolean}
  */
 var isValid = function(s) {
-
-    var valid = true;
-
-
-    var = {
-        '(': 1,
-        ')': -1,
-        '[': 2,
-        ']': -2,
-        '{': 3,
-        '}': -3
-    };
-
-
-
-
-    var prev = '';
-
+    var valid = true,
+        pair = {
+            '(': ')',
+            '[': ']',
+            '{': '}'
+        },
+        nowWaitingFor = [];
 
     for (var i = 0; i < s.length; i++) {
         var nowChar = s.charAt(i);
 
 
-        switch (nowChar) {
-            // case '(':            	
-            //     prev = nowChar;
-            //     break;
-            case ')':
-                if (prve === '[' || prev === '{') {
-                    valid = false;
-                }
-                prev = nowChar;
+        if (nowChar.match(/[(\[\{]/)) {
+        	
+            nowWaitingFor.unshift(pair[nowChar]);
+
+        } else if (nowChar.match(/[)\]\}]/)) {
+
+            if (nowWaitingFor[0] !== nowChar) {
+                valid = false;
                 break;
-                // case '[':
-                //     prev = nowChar;
-                //     break;
-            case ']':
-                if (prve === '(' || prev === '{') {
-                    valid = false;
-                }
-                prev = nowChar;
-                break;
-                // case '{':
-                //     prev = nowChar;
-                //     break;
-            case '}':
-                if (prve === '[' || prev === '(') {
-                    valid = false;
-                }
-                prev = nowChar;
-                break;
+            } else {
+                nowWaitingFor.splice(0, 1);
+            }
         }
 
-        // if (nowChar.match(/[()]/)) {
+
+        // if (nowChar.match(/[()\[\]\{\}]/)) {
+
+        //     if (nowChar === '(') {
+        //         nowWaitingFor.unshift(')');
+        //     } else
+
+        //     if (nowChar === '[') {
+        //         nowWaitingFor.unshift(']');
+        //     } else
+
+        //     if (nowChar === '{') {
+        //         nowWaitingFor.unshift('}');
+        //     } else
+
+
+        //     if (nowChar === ')') {
+        //         if (nowWaitingFor[0] !== nowChar) {
+        //             valid = false;
+        //             break;
+        //         } else {
+        //             nowWaitingFor.splice(0, 1);
+        //         }
+        //     } else
+
+        //     if (nowChar === ']') {
+        //         if (nowWaitingFor[0] !== nowChar) {
+
+        //             valid = false;
+        //             break;
+        //         } else {
+        //             nowWaitingFor.splice(0, 1);
+        //         }
+        //     } else
+
+        //     if (nowChar === '}') {
+        //         if (nowWaitingFor[0] !== nowChar) {
+        //             valid = false;
+        //             break;
+        //         } else {
+        //             nowWaitingFor.splice(0, 1);
+        //         }
+        //     }
+
 
         // }
-        // if (nowChar.match(/[\[\]]/)) {
-
-        // }
-        // if (nowChar.match(/[\{\}]/)) {
-
     }
-    // if (nowChar.match(/[()\[\]\{\}]/)) {}
 
+    if (nowWaitingFor.length !== 0) {
+        valid = false;
+    }
 
+    return valid;
 }
 
-console.log('repo', repo);
 
+// console.log( isValid("(|)|[|]|{|}") );
+// console.log( isValid(")(a}[") );
 
-return valid;
-};
+// console.log(isValid("([)]"));
+// console.log(isValid("([])"));
 
-
-console.log(isValid("(|)|[|]|{|}"));
+console.log(isValid("["));
